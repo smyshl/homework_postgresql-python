@@ -118,17 +118,12 @@ def generate_data(sex):
     :return: Возвращает кортеж с данными в формате first_name, second_name, third_name, date_of_birth,
              phone_num_full, email_full
     """
-    # init_data_list = []
+
     male_first_name_list = ['Алексей', 'Егор', 'Федор', 'Михаил', 'Петр', 'Сергей', 'Марк', 'Степан', 'Андрей', 'Жорж']
     female_first_name_list = ['Арина', 'Мария', 'Злата', 'Петра', 'Светлана', 'Ирина', 'Жанна', 'Виктория', 'Екатерина',
                               'Татьяна']
     male_second_name_list = ['Иванов', 'Петров', 'Сидоров', 'Кузнецов', 'Смирнов', 'Попов', 'Соколов', 'Михайлов',
                              'Васильев', 'Федоров']
-
-    # males_qty = random.randrange(3, 11)
-    # females_qty = random.randrange(3, 11)
-    # print(males_qty, females_qty)
-    # for i in range(males_qty):
 
     if sex == 'm':
         first_name = random.choice(male_first_name_list)
@@ -151,7 +146,6 @@ def print_table(table_list):
     Печатает таблицу в красивом виде
     :param table_list: Список кортежей с записями для печати
                        Формат записи: (id, fname, sname, tname, date_of_birth, phone_num, email_address)
-    :return:
     """
 
     lengths = [8, 16, 20, 20, 20, 25, 35]
@@ -316,22 +310,12 @@ def generate_select_query(param_dict_sel):
 def find_client(connection, fname, sname, thname, date_of_birth, phone_num, email_address, person_id=None):
     """
     Поиск клиента по имени, фамилии, отчеству, адресу электронной почты, телефону
-    :param person_id:
-    :param connection: Открытое соединение с базой данных
-    :param fname:
-    :param sname:
-    :param thname:
-    :param email_address:
-    :param phone_num:
     :return: Возвращает список кортежей с id, именем, фамилией и отчеством клиента
     """
     param_dict = {'person_id': person_id, 'first_name': fname, 'third_name': thname, 'second_name': sname,
                   'date_of_birth': date_of_birth, 'phone_num_full': phone_num, 'email_full': email_address}
 
-    # print('find_client-param_dict:', param_dict)
-
     query = generate_select_query(param_dict)
-    # print(query.as_string(connection))
 
     with connection.cursor() as cur:
         cur.execute(query)
@@ -343,7 +327,6 @@ def find_client(connection, fname, sname, thname, date_of_birth, phone_num, emai
 def insert_init_data():
     """
     Заполняет таблицу данными
-    :return:
     """
     males_qty = random.randrange(3, 11)
     females_qty = random.randrange(3, 11)
@@ -394,13 +377,6 @@ def generate_update_query(param_dict_update):
 def update_client(connection, person_id, fname, sname, thname, date_of_birth):
     """
     Изменение данных клиента - имени, фамилии, отчества и даты рождения
-    :param date_of_birth:
-    :param person_id:
-    :param connection: Открытое соединение с базой данных
-    :param fname:
-    :param sname:
-    :param thname:
-    :return:
     """
     param_dict_update = {'person_id': person_id, 'first_name': fname, 'third_name': thname,
                          'second_name': sname, 'date_of_birth': date_of_birth}
@@ -421,10 +397,6 @@ def update_client(connection, person_id, fname, sname, thname, date_of_birth):
 def delete_phone_number(connection, person_id, phone_number):
     """
     Удаляет из таблицы phone_number запись с указанным person_id  и phone_number
-    :param connection:
-    :param person_id:
-    :param phone_number:
-    :return:
     """
     if find_client(connection, '', '', '', '', phone_number, '', person_id):
         with connection.cursor() as cur:
@@ -439,10 +411,6 @@ def delete_phone_number(connection, person_id, phone_number):
 def delete_email_address(connection, person_id, email_address):
     """
     Удаляет из таблицы email_address запись с указанным person_id  и email_address
-    :param connection:
-    :param person_id:
-    :param email_address:
-    :return:
     """
     if find_client(connection, '', '', '', '', '', email_address, person_id):
         with connection.cursor() as cur:
@@ -457,9 +425,6 @@ def delete_email_address(connection, person_id, email_address):
 def delete_client(connection, person_id):
     """
     Удаляет из таблицы person и всех связанных таблиц записи с указанным person_id
-    :param connection:
-    :param person_id:
-    :return:
     """
     if find_client(connection, '', '', '', '', '', '', person_id):
         with connection.cursor() as cur:
@@ -630,7 +595,6 @@ def user_choice_update_client_info():
         print('Информация не введена, ничего обновлено не будет')
 
 
-
 def user_choice_input():
     """
     Функция выбора действий пользователя второго уровня.
@@ -704,7 +668,6 @@ def user_choice_remove_all_clients():
     if r_u_s == 'да':
         counter = 0
         for client in all_clients:
-            # print(client[0])
             delete_client(conn, client[0])
             counter += 1
     else:
